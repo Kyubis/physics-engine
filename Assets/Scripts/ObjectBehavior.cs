@@ -7,14 +7,15 @@ public class ObjectBehavior : MonoBehaviour {
     public float 
         height, 
         gravity, 
-        sphereRadius;
+        radius;
 
-    private float 
-        position, 
-        speed, 
-        acceleration, 
-        buoyancy, 
-        SubmergedVolume;
+    private float
+        position,
+        speed,
+        acceleration,
+        buoyancy,
+        submergedHeight,
+        submergedVolume;
 
     private bool
         isUnderWater;
@@ -24,12 +25,12 @@ public class ObjectBehavior : MonoBehaviour {
         position = height;
         UpdatePosition();
         // Update sphere scale to represent its actual size. 
-        transform.localScale = new Vector3(sphereRadius*2, sphereRadius*2, sphereRadius*2);
+        transform.localScale = new Vector3(radius*2, radius*2, radius*2);
     }
-	
-	void Update () {
-        //Check is spehere touches the water
-        if (position - sphereRadius < 0)
+
+    void Update() {
+        //Check if spehere touches the water
+        if (position - radius < 0)
         {
             isUnderWater = true;
         }
@@ -39,11 +40,29 @@ public class ObjectBehavior : MonoBehaviour {
         }
 
         //Buoyancy calculation
-        //Calculate sphere volume
-        //SubmergedVolume = 
+        if (isUnderWater)
+        {
+            // Calculate submerged sphere height
+            // If sphere is fully submerged
+            if (height < (radius*-1))
+            {
+                submergedHeight = radius * 2;
+            }
+            //If sphere is pattially submerged
+            else
+            {
+                submergedHeight = Mathf.Abs(position - radius);
+            }
 
-       UpdatePosition();
-       Debug.Log(isUnderWater);
+            // Calculate submerged sphere volume
+            if (height >= 0)
+            {
+               // submergedVolume = ((Mathf.PI * Abs(position - radius) * Abs(position - radius))/3)*(3*radius - Abs(position - radius));
+            }
+        }
+
+        UpdatePosition();
+       Debug.Log(submergedHeight);
 
     }
 
