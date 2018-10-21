@@ -15,7 +15,8 @@ public class ObjectBehavior : MonoBehaviour {
         acceleration,
         buoyancy,
         submergedHeight,
-        submergedVolume;
+        submergedVolume,
+        submergedCut;
 
     private bool
         isUnderWater;
@@ -54,15 +55,18 @@ public class ObjectBehavior : MonoBehaviour {
                 submergedHeight = Mathf.Abs(position - radius);
             }
 
+            //Calculate water circle cut radius
+            submergedCut = Mathf.Sqrt(submergedHeight * ((2 * radius) - submergedHeight));
+
             // Calculate submerged sphere volume
-            if (height >= 0)
+            if (submergedHeight >= 0)
             {
-               // submergedVolume = ((Mathf.PI * Abs(position - radius) * Abs(position - radius))/3)*(3*radius - Abs(position - radius));
+                submergedVolume = (Mathf.PI / 6) * submergedHeight * ((3 * submergedCut * submergedCut) + (submergedHeight * submergedHeight));
             }
         }
 
         UpdatePosition();
-       Debug.Log(submergedHeight);
+       Debug.Log(submergedVolume);
 
     }
 
