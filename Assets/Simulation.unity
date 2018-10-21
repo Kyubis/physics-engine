@@ -129,19 +129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59a41f0b2154ce4fa9b45e73c531b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 50
+  height: 20
   gravity: 9.8
-  radius: 0.01
-  mass: 100
+  radius: 1
+  mass: 100000
   fluidDensity: 1000
-  position: 0
-  speed: 0
-  acceleration: 0
-  force: 0
-  buoyancy: 0
-  submergedHeight: 0
-  submergedVolume: 0
-  submergedCut: 0
 --- !u!1 &746647278
 GameObject:
   m_ObjectHideFlags: 0
