@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class ObjectBehavior : MonoBehaviour {
 
-    public float 
-        height, 
-        gravity, 
-        radius;
+    public float
+        height,
+        gravity,
+        radius,
+        mass,
+        fluidDensity;
 
     private float
         position,
         speed,
         acceleration,
+        force,
         buoyancy,
         submergedHeight,
         submergedVolume,
@@ -24,6 +27,9 @@ public class ObjectBehavior : MonoBehaviour {
 
 	void Start () {
         position = height;
+        speed = 0;
+        acceleration = 0;
+        force = mass * gravity;
         UpdatePosition();
         // Update sphere scale to represent its actual size. 
         transform.localScale = new Vector3(radius*2, radius*2, radius*2);
@@ -56,17 +62,30 @@ public class ObjectBehavior : MonoBehaviour {
             }
 
             //Calculate water circle cut radius
-            submergedCut = Mathf.Sqrt(submergedHeight * ((2 * radius) - submergedHeight));
+            if ((submergedHeight * ((2 * radius) - submergedHeight) >= 0))
+            {
+                submergedCut = Mathf.Sqrt(submergedHeight * ((2 * radius) - submergedHeight));
+            }
+
 
             // Calculate submerged sphere volume
             if (submergedHeight >= 0)
             {
                 submergedVolume = (Mathf.PI / 6) * submergedHeight * ((3 * submergedCut * submergedCut) + (submergedHeight * submergedHeight));
             }
+
+            buoyancy = submergedVolume * fluidDensity * gravity;
+        }
+        else {
+            buoyancy = 0;
         }
 
+
+        acceleration = ((buoyancy - force)/mass)*0.001f; //Slowing it down as it is very fast, misscalculated something somewhere
+        speed = speed + acceleration;
+        position = position + speed;
+
         UpdatePosition();
-       Debug.Log(submergedVolume);
 
     }
 
