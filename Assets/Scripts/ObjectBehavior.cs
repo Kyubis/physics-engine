@@ -14,25 +14,36 @@ public class ObjectBehavior : MonoBehaviour {
         speed, 
         acceleration, 
         buoyancy, 
-        SubmergedSphereVolume;
+        SubmergedVolume;
 
     private bool
         isUnderWater;
 
 
 	void Start () {
-        
         position = height;
         UpdatePosition();
+        // Update sphere scale to represent its actual size. 
+        transform.localScale = new Vector3(sphereRadius*2, sphereRadius*2, sphereRadius*2);
     }
 	
 	void Update () {
         //Check is spehere touches the water
-        //Calculate sphere volume if it does
-        //SubmergedSphereVolume = 
+        if (position - sphereRadius < 0)
+        {
+            isUnderWater = true;
+        }
+        else
+        {
+            isUnderWater = false;
+        }
 
-        UpdatePosition();
-       // Debug.Log(Time.deltaTime);
+        //Buoyancy calculation
+        //Calculate sphere volume
+        //SubmergedVolume = 
+
+       UpdatePosition();
+       Debug.Log(isUnderWater);
 
     }
 
